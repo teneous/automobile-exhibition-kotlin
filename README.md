@@ -1,7 +1,7 @@
 # ecommerce-kotlin
 这个是为了学习kotlin所写的一个简单交易例子
 ### 情景
-**顾客来店购买商品,放进购物车，下单。然后订单页面进行结账，并且打印小票的功能**
+**顾客来店购买商品,放进购物车，下单。然后订单页面进行结账，并且查看历史订单的功能**
 
 ### 流程
 1.首先选择在许多"分类"的商品中选择好商品,商品可以有折扣，参考( <a name="discount_rule">折扣规则</a> )
@@ -33,32 +33,82 @@
 
 **商品主表**
 ###### product
-
++ id            BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
++  product_name VARCHAR(20) COMMENT '商品名' NULL,
++  product_type SMALLINT(6) COMMENT '商品类型' NULL,
++  status       SMALLINT(6) COMMENT '商品状态' NULL
 
 **订单表**
+###### order
++  id             BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
++  customer_id    BIGINT(11)  COMMENT '顾客Id' NULL
++  sequence_no    VARCHAR(12) COMMENT '交易流水号' NULL,
++  order_time     DATETIME    COMMENT '订单时间' NULL,
++  status         SMALLINT(6) COMMENT '订单状态' NULL,
++  total_money    INT         COMMENT '订单总价格' NULL,
++  total_discount INT         COMMENT '订单总折扣' NULL,
 
-
+**订单支付金钟金额表**
+###### order_payment
++  id             BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
++  sequence_no    VARCHAR(11) COMMENT '订单流水号' NULL,
++  payment_type   SMALLINT(6) COMMENT '支付类型' NULL,
++  payment_detail BIGINT(11)  COMMENT '支付类型详细' NULL,
++  payment_money  int         COMMENT '支付金额' NULL
++  purchase_time  DATE        COMMENT '支付时间'  NULL
 
 **交易表**
 ###### sale
  + id             BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
- + customerid     BIGINT(11) NULL,
- + sequence_no    INT        NOT NULL,
- + sale_times     DATETIME   NULL,
- + realpay_money  INT        NULL,
- + totalmoney     INT        NULL,
- + discount       INT        NULL,
- + discount_type  SMALLINT(6) NULL,
- + re_sequence_no INT        NULL
-
+ + sequence_no    INT        COMMENT '交易流水号' NOT NULL,
+ + sale_times     DATETIME   COMMENT '交易时间' NULL,
+ + product        BIGINT(11) COMMENT '商品id' NOT NULL,
+ + number         INT        COMMENT '交易数量' NULL,
+ + discount       INT        COMMENT '商品折扣价' NULL,
+ + extra_discount  SMALLINT(6) COMMENT '额外折扣价，一般是全场减卷' NULL
+ + special_opr    SMALLINT   COMMENT '换货/退货'  NULL
 
 
 **金种表**
+###### payement
++  id           BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
++  payment_type SMALLINT(6) COMMENT '金钟类型' NOT NULL,
++  payment_name VARCHAR(30) COMMENT '金钟名字' NOT NULL,
++  index        SMALLINT(6) COMMENT 'index排序' NULL,
++  status       SMALLINT(6) COMMENT '有效性' NOT NULL,
++  start_time   DATETIME    COMMENT '开始时间' NULL
 
-
+**金种明细表**
+###### payement_detail
++  id              BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
++  payment_type    SMALLINT(6) COMMENT '和主表类型相同' NULL,
++  detail_name     VARCHAR(30) COMMENT '明细名字' NULL,
++  index           SMALLINT(6) COMMENT '排序' NULL,
++  status          SMALLINT(6) COMMENT '有效性' NULL,
++  own_conpany     VARCHAR(30) COMMENT '所属公司' NULL,
++  authorized_time DATETIME    COMMENT '授权时间' NULL
 
 **顾客表**
+###### customer
++  id            BIGINT      NULL,
++  identity_num  VARCHAR(12) COMMENT '卡号' NULL,
++  nick_name     VARCHAR(40) COMMENT '名字' NULL,
++  register_time DATETIME    COMMENT '注册时间' NULL,
++  status        SMALLINT(6) COMMENT '有效性' NULL,
++  point         INT         COMMENT '积分' NULL,
+  CONSTRAINT customer_identity_num_uindex
+  UNIQUE (identity_num),
+  CONSTRAINT customer_card_num_uindex
 
 
-
-**折扣主表**
+**顾客商品所有表**
+###### customer_product
++  id            BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
++  customer_id   BIGINT      COMMENT '顾客id' NULL,
++  product_id    BIGINT(11)  COMMENT '商品id' NULL,
++  validate_time DATETIME    COMMENT '商品有效期' NULL,
++  purchase_time INT         COMMENT '商品购买时间' NULL,
++  total_num     INT         COMMENT '总个数' NULL,
++  remain_num    INT         COMMENT '剩余次数' NULL,
++  status        SMALLINT(6) COMMENT '有效性' NULL,
++  single_price  INT         COMMENT '单价' NULL
