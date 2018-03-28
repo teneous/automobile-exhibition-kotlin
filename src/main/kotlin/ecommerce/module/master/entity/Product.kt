@@ -1,11 +1,11 @@
-package ecommerce.transaction.entity
+package ecommerce.module.master.entity
 
 import javax.persistence.*
 
 @Entity
 data class Product(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null,
+    var id: Long? = null,
     @Column(name="product_name")
     var productName: String? = "",
     @Column(name = "product_type")

@@ -1,4 +1,4 @@
-package simplekotlin.ecommerce
+package ecommerce
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
