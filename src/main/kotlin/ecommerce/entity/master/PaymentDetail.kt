@@ -10,8 +10,8 @@ import javax.persistence.*
 data class PaymentDetail(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    @Column(name = "payment_type")
-    var paymentType: Short? = null,
+    @Column(name = "payment_id")
+    var paymentId: Long? = null,
     @Column(name = "detail_name")
     var detailName: String? = null,
     @Column(name = "index")
