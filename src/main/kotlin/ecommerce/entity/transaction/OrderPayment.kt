@@ -1,4 +1,4 @@
-package ecommerce.module.transaction.entity
+package ecommerce.entity.transaction
 
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -12,6 +12,7 @@ data class OrderPayment(
     var id: Long? = null,
     @Column(name = "sequence_no")
     var sequenceNo: String? = null,
+    @Column(name = "payment_type")
     var paymentType: Short? = null,
     @Column(name = "payment_detail")
     var paymentDetail: Long? = null,

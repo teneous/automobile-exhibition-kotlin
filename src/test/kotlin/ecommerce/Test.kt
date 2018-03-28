@@ -1,7 +1,7 @@
 package ecommerce
 
-import ecommerce.module.master.repository.IPaymentDetailRepository
-import ecommerce.module.master.repository.IProductRepository
+import ecommerce.repository.master.IPaymentDetailRepository
+import ecommerce.repository.master.IProductRepository
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 

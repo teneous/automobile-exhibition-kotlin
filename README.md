@@ -1,7 +1,7 @@
 # ecommerce-kotlin
 这个是为了学习kotlin所写的一个简单交易例子
 ### 情景
-**顾客来店购买商品,放进购物车，下单。然后订单页面进行结账，并且查看历史订单的功能**
+**顾客来店购买商品,放进购物车，下单。生成订单页面进行结账，并且查看历史订单的功能**
 
 ### 流程
 1.首先选择在许多"分类"的商品中选择好商品,商品可以有折扣，参考( <a name="discount_rule">折扣规则</a> )
@@ -10,6 +10,7 @@
 ###### 退款
 + 购买商品的3天内可以要求退货,且以实际支付价格退还,如果有用过优惠卷等,则卷不予返还
 + 退款以原支付类型渠道退还，并在1~3个工作日内到款
++ 满减的金额是平摊到各个商品的
 ###### 换货
 + 顾客可以用自己剩下商品余额+差价来购买新的商品(不适用于已经过期的商品),新商品价格必须大于老商品
 + 普通换货
@@ -42,7 +43,7 @@
 ###### order
 +  id             BIGINT(11) AUTO_INCREMENT PRIMARY KEY,
 +  customer_id    BIGINT(11)  COMMENT '顾客Id' NULL
-+  sequence_no    VARCHAR(12) COMMENT '交易流水号' NULL,
++  sequence_no    VARCHAR(12) COMMENT '订单流水号' NULL,
 +  order_time     DATETIME    COMMENT '订单时间' NULL,
 +  status         SMALLINT(6) COMMENT '订单状态' NULL,
 +  total_money    INT         COMMENT '订单总价格' NULL,

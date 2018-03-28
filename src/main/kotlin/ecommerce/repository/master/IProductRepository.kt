@@ -1,6 +1,6 @@
-package ecommerce.module.master.repository
+package ecommerce.repository.master
 
-import ecommerce.module.master.entity.Product
+import ecommerce.entity.master.Product
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface IProductRepository: JpaRepository<Product,Long> {

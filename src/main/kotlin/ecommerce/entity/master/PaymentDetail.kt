@@ -1,4 +1,4 @@
-package ecommerce.module.master.entity
+package ecommerce.entity.master
 
 import java.time.LocalDateTime
 import javax.persistence.*

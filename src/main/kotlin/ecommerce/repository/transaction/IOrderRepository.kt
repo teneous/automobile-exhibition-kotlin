@@ -1,6 +1,6 @@
-package ecommerce.module.transaction.repository
+package ecommerce.repository.transaction
 
-import ecommerce.module.transaction.entity.Order
+import ecommerce.entity.transaction.Order
 import org.springframework.data.jpa.repository.JpaRepository
 
 /**

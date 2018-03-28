@@ -1,4 +1,4 @@
-package ecommerce.module.customer.entity
+package ecommerce.entity.customer
 
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -25,5 +25,7 @@ data class CustomerProduct(
     @Column(name="status")
     var status:Short? = null,
     @Column(name="pre_price")
-    var prePrice:Int? = null
+    var prePrice:Int? = null,
+    @Column(name = "sale_id")
+    var saleId: Long? = null
 )

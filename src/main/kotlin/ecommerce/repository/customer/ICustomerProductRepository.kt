@@ -1,6 +1,6 @@
-package ecommerce.module.customer.repository
+package ecommerce.repository.customer
 
-import ecommerce.module.customer.entity.CustomerProduct
+import ecommerce.entity.customer.CustomerProduct
 import org.springframework.data.jpa.repository.JpaRepository
 
 /**
