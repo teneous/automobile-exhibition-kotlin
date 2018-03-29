@@ -12,6 +12,8 @@ data class Payment(
         var id:Long? = null,
         @Column(name = "payment_name")
         var paymentName:String? = null,
+        @Column(name = "payment_type")
+        var paymentType:Short? = null,
         @Column(name = "index")
         var index:Short? = null,
         @Column(name = "status")

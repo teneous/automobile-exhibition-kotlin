@@ -19,7 +19,11 @@ data class Order(
     @Column(name = "status")
     var status: Short? = null,
     @Column(name = "total_money")
-    var totalMoney:Int ? = null,
+    var totalMoney: Int ? = null,
     @Column(name = "total_discount")
-    var totalDiscount:Int? = null
+    var totalDiscount: Int? = null,
+    @Column(name="payment_type")
+    var paymentType: Short ? = null,
+    @Column(name = "payement_detailid")
+    var payementDetailid: Long? = null
 )

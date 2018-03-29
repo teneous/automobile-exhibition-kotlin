@@ -13,12 +13,8 @@ data class Sale(
     var saleTimes: LocalDateTime? = null,
     @Column(name = "product_id")
     var productId: Long? = null,
-    @Column(name = "per_price")
-    var perPrice: Int? = 0,
+    @Column(name = "money")
+    var money: Int? = 0,
     @Column(name = "number")
-    var number: Int? = 0,
-    @Column(name = "discount")
-    var discount: Int = 0,
-    @Column(name = "special_opr")
-    var specialOpr: String? = null
+    var number: Int? = 0
 )
