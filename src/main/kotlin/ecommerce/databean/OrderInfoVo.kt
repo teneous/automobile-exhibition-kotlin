@@ -4,8 +4,8 @@ package ecommerce.databean
 
 //@Serialization
 data class OrderInfoVo(
+    var customerId: Long?,
     var sequenceNo: String?,
     var productList: List<ProductInfo>?,
-    var customerId: Long?,
-    var discountVo: OrderDiscountVo?
+    var specialDiscount: List<Pair<String,Int>>?//first:productid,second是价格
 )

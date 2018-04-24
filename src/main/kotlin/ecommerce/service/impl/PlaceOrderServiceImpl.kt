@@ -3,7 +3,6 @@ package ecommerce.service.impl
 import ecommerce.common.*
 import ecommerce.common.extendfun.abs
 import ecommerce.common.extendfun.times
-import ecommerce.databean.OrderDiscountVo
 import ecommerce.databean.OrderInfoVo
 import ecommerce.entity.customer.OrderProduct
 import ecommerce.entity.transaction.Order
@@ -28,11 +27,11 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
     override fun placeOrder(orderInfo: OrderInfoVo) {
         if(!checkPlaceOrder(orderInfo)) return
         val now = LocalDateTime.now()
-        val discountVo = orderInfo.discountVo
+        val discountVo = orderInfo.specialDiscount
         //计算每个商品的金额以及折扣
-        val totalProductDiscount = orderInfo.calculateDiscountAndGetTotal(discountVo)//商品所有折扣
-        val totalDiscount = orderInfo.discountVo?.specialProduct?.sumBy { it.second }?.plus(totalProductDiscount)//本订单所有折扣
-        val totalProductMoney = orderInfo.productList?.fold(0,{number,price-> price * number})
+        val totalProductDiscount = orderInfo.calculateDiscountAndGetTotal()//获取商品所有折扣
+        val totalDiscount = discountVo?.sumBy { it.second }?.plus(totalProductDiscount)//获取该订单内所有折扣
+        val totalProductMoney = orderInfo.productList?.fold(0,{number,price-> price * number})//商品市场总价
         //保存订单信息
         Order().apply {
                 orderTime = now
@@ -42,31 +41,29 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
                 this.totalDiscount = totalDiscount
                 totalMoney =  totalProductMoney?.minus(totalDiscount!!)
         }.let { orderRepository.save(it)}
-        //保存订单商品表{vo->entity,对象之间的转换应该用map更为合适}
+        //保存订单内的商品信息{vo->entity,对象之间的转换应该用map更为合适}
         orderInfo.productList?.map { OrderProduct(
                 sequenceNo = orderInfo.sequenceNo,
                 customerId = orderInfo.customerId,
                 totalNum = it.number,
                 productId = it.productId,
                 status = VALID,
-                discount = it.discount,
-                realTotalMoney = it.number * it.marketPrice - it.discount
+                discount = it.discountValue,
+                realTotalMoney = it.number * it.marketPrice - it.discountValue
         )}.let { orderProductRepository.saveAll(it?: listOf()) }
-        //如果有特殊折扣商品则插入一条特殊商品
-        if (orderInfo.discountVo?.specialProduct?.size != 0) {
-            orderInfo.discountVo?.specialProduct?.forEach{
-                OrderProduct().apply {
-                    sequenceNo = orderInfo.sequenceNo
-                    customerId = orderInfo.customerId
-                    productId = it.first
-                    totalNum = 1
-                    status = VALID
-                    discount = it.second
+        //如果有特殊折扣商品(特殊折扣卷,将其作为一种商品)
+        if (orderInfo.specialDiscount?.size != 0) {
+            orderInfo.specialDiscount?.map{ OrderProduct(
+                    sequenceNo = orderInfo.sequenceNo,
+                    customerId = orderInfo.customerId,
+                    totalNum = 1,
+                    status = VALID,
+                    productId = it.first,
+                    discount = it.second,
                     realTotalMoney = 0
-                }.let { orderProductRepository.save(it)}
+                )}.let { orderProductRepository.saveAll(it?: listOf())}
             }
         }
-    }
 
     /**
      * 下订单数据校验
@@ -78,24 +75,28 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
         return true
     }
 }
+
     //extends function
-    fun OrderInfoVo.calculateDiscountAndGetTotal(discountVo: OrderDiscountVo?): Int{
+    fun OrderInfoVo.calculateDiscountAndGetTotal(): Int{
         var totalDiscount = 0
-        productList?.filter {it.canDiscount == 1.toShort()}?.map {
-            when (discountVo?.discountType) {
-                DISCOUNT_RATE -> {
-                    it.discount = it.number.times(it.marketPrice).times(discountVo.doscountValue).div(100).abs()
-                    totalDiscount += it.discount
+        val discountTotalMoney =  productList?.filter {it.canDiscount == 0.toShort() && DISCOUNT_MONEY == it.discountType}
+                ?.sumBy { it.marketPrice*it.number }
+        //过滤掉不能打折的,在对其分组
+        productList?.filter {it.canDiscount == 0.toShort()}?.groupBy {it.discountType}?.forEach{
+            when(it.key){
+                DISCOUNT_RATE -> { //折扣计算
+                    it.value.map {
+                        it.discount = (it.number * it.marketPrice * it.discountValue.div(100)).abs()
+                        totalDiscount += it.discount
+                    }
                 }
-                DISCOUNT_MONEY -> {
-                    it.discount = (it.marketPrice * it.number * discountVo.doscountValue)
-                    totalDiscount += it.discount
-                }
-                else -> {
-                    it.discount = 0
-                }
+//                DISCOUNT_MONEY -> {//满减计算
+//                    it.value.map {
+////                        it.discount = (it.marketPrice * it.number / discountTotalMoney)
+//                        totalDiscount += it.discount
+//                    }
+//                }
             }
         }
         return totalDiscount
     }
-
