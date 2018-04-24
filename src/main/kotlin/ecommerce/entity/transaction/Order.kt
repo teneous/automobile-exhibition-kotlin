@@ -1,5 +1,6 @@
 package ecommerce.entity.transaction
 
+import ecommerce.common.VALID
 import java.time.LocalDateTime
 import javax.persistence.*
 

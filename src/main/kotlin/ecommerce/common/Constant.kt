@@ -10,3 +10,8 @@ internal const val LOGOFF: Short = 2 /*无效*/
 
 
 internal const val UNPAY: Short = 0 /*尚未支付*/
+
+
+//折扣相关
+internal const val DISCOUNT_RATE: Short = 0 /*按照折扣率来打折  0~100*/
+internal const val DISCOUNT_MONEY: Short = 1 /*按照金额来打折*/

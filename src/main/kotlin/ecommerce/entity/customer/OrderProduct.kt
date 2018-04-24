@@ -1,5 +1,6 @@
 package ecommerce.entity.customer
 
+import ecommerce.common.VALID
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -13,7 +14,7 @@ data class OrderProduct(
     @Column(name="customer_id")
     var customerId: Long? = null,
     @Column(name="product_id")
-    var productId: Long? = null,
+    var productId: String? = null,
     @Column(name="sequence_no")
     var sequenceNo: String? = null,
     @Column(name="validate_time")
@@ -22,12 +23,15 @@ data class OrderProduct(
     var totalNum: Int? = null,
     @Column(name="status")
     var status:Short? = null,
-    @Column(name="pre_price")
-    var prePrice:Int? = null,
+    @Column(name="real_total_money")//折扣后总钱
+    var realTotalMoney:Int? = null,
     @Column(name = "sale_id")
     var saleId: Long? = null,
     @Column(name = "resale_id")
     var reSaleId: Long? = null,
     @Column(name = "discount")
-    var discount: Long? = null
-)
+    var discount: Int? = null
+){
+    constructor(sequenceNo: String, customerId: Long, status: Short = VALID,
+                totalNum: Int = 1, realTotalMoney: Int = 0,discount: Int?): this()
+}
