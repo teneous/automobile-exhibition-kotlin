@@ -10,6 +10,7 @@ internal const val LOGOFF: Short = 2 /*无效*/
 
 
 internal const val UNPAY: Short = 0 /*尚未支付*/
+internal const val PAY: Short = 1 /*尚未支付*/
 
 
 //折扣相关

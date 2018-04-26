@@ -27,16 +27,15 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
     override fun placeOrder(orderInfo: OrderInfoVo) {
         if(!checkPlaceOrder(orderInfo)) return
         val now = LocalDateTime.now()
-        val discountVo = orderInfo.specialDiscount
         //计算每个商品的金额以及折扣
-        val totalProductDiscount = orderInfo.calculateDiscountAndGetTotal()//获取商品所有折扣
-        val totalDiscount = discountVo?.sumBy { it.second }?.plus(totalProductDiscount)//获取该订单内所有折扣
         val totalProductMoney = orderInfo.productList?.fold(0,{number,price-> price * number})//商品市场总价
+        val totalProductDiscount = orderInfo.calculateDiscountAndGetTotal()//获取商品所有折扣
+        val totalDiscount = orderInfo.specialDiscount?.sumBy { it.second }?.plus(totalProductDiscount)//获取该订单内所有折扣
         //保存订单信息
         Order().apply {
+                sequenceNo = orderInfo.sequenceNo
                 orderTime = now
                 status = UNPAY
-                sequenceNo = orderInfo.sequenceNo
                 customerId = orderInfo.customerId
                 this.totalDiscount = totalDiscount
                 totalMoney =  totalProductMoney?.minus(totalDiscount!!)
@@ -79,8 +78,8 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
     //extends function
     fun OrderInfoVo.calculateDiscountAndGetTotal(): Int{
         var totalDiscount = 0
-        val discountTotalMoney =  productList?.filter {it.canDiscount == 0.toShort() && DISCOUNT_MONEY == it.discountType}
-                ?.sumBy { it.marketPrice*it.number }
+//        val discountTotalMoney =  productList?.filter {it.canDiscount == 0.toShort() && DISCOUNT_MONEY == it.discountType}
+//                ?.sumBy { it.marketPrice*it.number }
         //过滤掉不能打折的,在对其分组
         productList?.filter {it.canDiscount == 0.toShort()}?.groupBy {it.discountType}?.forEach{
             when(it.key){
