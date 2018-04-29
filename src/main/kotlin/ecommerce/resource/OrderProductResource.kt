@@ -25,4 +25,5 @@ class PlaceOrder{
     fun payForOrder(@RequestBody paymentVo: PaymentVo){
         payForOrderService.payForOrder(paymentVo)
     }
+
 }

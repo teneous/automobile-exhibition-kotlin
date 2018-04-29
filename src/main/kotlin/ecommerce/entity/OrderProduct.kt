@@ -1,4 +1,4 @@
-package ecommerce.entity.customer
+package ecommerce.entity
 
 import ecommerce.common.VALID
 import java.time.LocalDateTime
@@ -25,10 +25,6 @@ data class OrderProduct(
     var status:Short? = null,
     @Column(name="real_total_money")//折扣后总钱
     var realTotalMoney:Int? = null,
-    @Column(name = "sale_id")
-    var saleId: Long? = null,
-    @Column(name = "resale_id")
-    var reSaleId: Long? = null,
     @Column(name = "discount")
     var discount: Int? = null
 ){

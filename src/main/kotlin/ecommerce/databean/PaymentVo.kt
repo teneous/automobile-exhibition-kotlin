@@ -3,9 +3,7 @@ package ecommerce.databean
 
 data class PaymentVo(
     var sequenceNo: String,
-    var totalPayment: Int,
-    var paymentType: Short,
-    var paymentDetail: Long,
+    var paymentDetail: List<PaymentDetailVo>,
     var redPacket: List<Pair<Short,Int>>
 
 

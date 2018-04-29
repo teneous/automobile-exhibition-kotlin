@@ -1,4 +1,4 @@
-package ecommerce.entity.transaction
+package ecommerce.entity
 
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -11,10 +11,12 @@ data class Sale(
     var sequenceNo: String? = null,
     @Column(name = "sale_times")
     var saleTimes: LocalDateTime? = null,
-    @Column(name = "product_id")
-    var productId: Long? = null,
     @Column(name = "money")
     var money: Int? = 0,
     @Column(name = "number")
-    var number: Int? = 0
+    var discount: Int? = 0,
+    @Column(name ="refund_sale_id")
+    var refundSaleId :Long?=null,
+    @Column(name ="other_pay")
+    var otherPay :Int?=0
 )

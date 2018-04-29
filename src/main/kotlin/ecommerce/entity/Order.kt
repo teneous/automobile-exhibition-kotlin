@@ -1,4 +1,4 @@
-package ecommerce.entity.transaction
+package ecommerce.entity
 
 import ecommerce.common.VALID
 import java.time.LocalDateTime
@@ -22,9 +22,5 @@ data class Order(
     @Column(name = "total_money")
     var totalMoney: Int ? = null,
     @Column(name = "total_discount")
-    var totalDiscount: Int? = null,
-    @Column(name="payment_type")
-    var paymentType: Short ? = null,
-    @Column(name = "payement_detailid")
-    var payementDetailid: Long? = null
+    var totalDiscount: Int? = null
 )

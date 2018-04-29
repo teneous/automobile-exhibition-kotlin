@@ -4,11 +4,11 @@ import ecommerce.common.*
 import ecommerce.common.extendfun.abs
 import ecommerce.common.extendfun.times
 import ecommerce.databean.OrderInfoVo
-import ecommerce.entity.customer.OrderProduct
-import ecommerce.entity.transaction.Order
-import ecommerce.repository.customer.ICustomerRepository
-import ecommerce.repository.customer.IOrderProductRepository
-import ecommerce.repository.transaction.IOrderRepository
+import ecommerce.entity.OrderProduct
+import ecommerce.entity.Order
+import ecommerce.repository.ICustomerRepository
+import ecommerce.repository.IOrderProductRepository
+import ecommerce.repository.IOrderRepository
 import ecommerce.service.IPlaceOrderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -41,26 +41,30 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
                 totalMoney =  totalProductMoney?.minus(totalDiscount!!)
         }.let { orderRepository.save(it)}
         //保存订单内的商品信息{vo->entity,对象之间的转换应该用map更为合适}
-        orderInfo.productList?.map { OrderProduct(
-                sequenceNo = orderInfo.sequenceNo,
-                customerId = orderInfo.customerId,
-                totalNum = it.number,
-                productId = it.productId,
-                status = VALID,
-                discount = it.discountValue,
-                realTotalMoney = it.number * it.marketPrice - it.discountValue
-        )}.let { orderProductRepository.saveAll(it?: listOf()) }
-        //如果有特殊折扣商品(特殊折扣卷,将其作为一种商品)
-        if (orderInfo.specialDiscount?.size != 0) {
-            orderInfo.specialDiscount?.map{ OrderProduct(
+        orderInfo.productList?.map {
+            OrderProduct(
                     sequenceNo = orderInfo.sequenceNo,
                     customerId = orderInfo.customerId,
-                    totalNum = 1,
+                    totalNum = it.number,
+                    productId = it.productId,
                     status = VALID,
-                    productId = it.first,
-                    discount = it.second,
-                    realTotalMoney = 0
-                )}.let { orderProductRepository.saveAll(it?: listOf())}
+                    discount = it.discountValue,
+                    realTotalMoney = it.number * it.marketPrice - it.discountValue
+            )
+        }.let { orderProductRepository.saveAll(it?: listOf()) }
+        //如果有特殊折扣商品(特殊折扣卷,将其作为一种商品)
+        if (orderInfo.specialDiscount?.size != 0) {
+            orderInfo.specialDiscount?.map{
+                OrderProduct(
+                        sequenceNo = orderInfo.sequenceNo,
+                        customerId = orderInfo.customerId,
+                        totalNum = 1,
+                        status = VALID,
+                        productId = it.first,
+                        discount = it.second,
+                        realTotalMoney = 0
+                )
+            }.let { orderProductRepository.saveAll(it?: listOf())}
             }
         }
 

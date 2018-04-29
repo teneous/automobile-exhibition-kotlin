@@ -1,4 +1,4 @@
-package ecommerce.entity.master
+package ecommerce.entity
 
 import javax.persistence.*
 

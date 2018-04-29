@@ -1,6 +1,6 @@
-package ecommerce.repository.master
+package ecommerce.repository.setting
 
-import ecommerce.entity.master.Payment
+import ecommerce.entity.setting.Payment
 import org.springframework.data.jpa.repository.JpaRepository
 
 /**

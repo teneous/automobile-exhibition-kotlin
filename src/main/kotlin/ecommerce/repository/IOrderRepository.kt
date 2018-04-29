@@ -1,6 +1,6 @@
-package ecommerce.repository.transaction
+package ecommerce.repository
 
-import ecommerce.entity.transaction.Order
+import ecommerce.entity.Order
 import org.springframework.data.jpa.repository.JpaRepository
 
 /**
@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository
  */
 interface IOrderRepository : JpaRepository<Order,Long> {
 
-    fun findBySequenceNo(sequenceNo: String):Order
+    fun findBySequenceNo(sequenceNo: String): Order
 
 }

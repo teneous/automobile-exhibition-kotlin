@@ -1,6 +1,6 @@
-package ecommerce.repository.transaction
+package ecommerce.repository
 
-import ecommerce.entity.transaction.Sale
+import ecommerce.entity.Sale
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface ISaleRepository : JpaRepository<Sale,Long> {
