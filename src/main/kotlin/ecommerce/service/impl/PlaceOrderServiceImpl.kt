@@ -63,8 +63,7 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
                         productId = it.first,
                         discount = it.second,
                         realTotalMoney = 0
-                )
-            }.let { orderProductRepository.saveAll(it?: listOf())}
+                )}.let { orderProductRepository.saveAll(it?: listOf())}
             }
         }
 

@@ -10,4 +10,6 @@ interface IOrderRepository : JpaRepository<Order,Long> {
 
     fun findBySequenceNo(sequenceNo: String): Order
 
+    fun findByCustomerIdAndStatus(customerId:Long):List<Order>
+
 }

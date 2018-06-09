@@ -34,7 +34,7 @@ class PayForOrderServiceImpl: IPayForOrderService{
 
         //保存交易记录
         val now = LocalDateTime.now()
-        //暂时没有想到其他办法可以拿到他的id
+        //暂时没有想到其他办法可以拿到它的id
         val sale = Sale()
         sale.apply {
              sequenceNo = paymentVo.sequenceNo
@@ -49,8 +49,8 @@ class PayForOrderServiceImpl: IPayForOrderService{
             SalePayment(
                 saleId = sale.id,
                 paymenttype = it.paymentType,
-            paymoney = it.paymentMoney,
-            paymentDetailId = it.paymentDetail
+                paymoney = it.paymentMoney,
+                paymentDetailId = it.paymentDetail
             )
         }.let { salePaymentRepotory.saveAll(it) }
 
