@@ -1,8 +1,8 @@
 package ecommerce.repository
 
-import ecommerce.entity.SalePayment
+import ecommerce.entity.DealsPayment
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface ISalePaymentRepository: JpaRepository<SalePayment, Long> {
+interface IDealsPaymentRepository: JpaRepository<DealsPayment, Long> {
 
 }

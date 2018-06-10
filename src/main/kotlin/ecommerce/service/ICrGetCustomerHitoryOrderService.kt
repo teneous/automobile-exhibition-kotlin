@@ -1,11 +1,11 @@
 package ecommerce.service
 
 import ecommerce.databean.CrOrderCondition
-import ecommerce.entity.Order
+import ecommerce.entity.OrderSheet
 
 interface ICrGetCustomerHitoryOrderService {
 
-    fun getAllCustomerHitoryOrder(customerId:Long):List<Order>?
+    fun getAllCustomerHistoryOrder(customerId:Long):List<OrderSheet>?
 
-    fun getCustomerHitoryOrder(customerId:Long,searchCondition: CrOrderCondition)
+    fun getCustomerHistoryOrder(customerId:Long,searchCondition: CrOrderCondition)
 }

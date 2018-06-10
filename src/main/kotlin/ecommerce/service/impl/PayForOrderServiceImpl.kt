@@ -4,11 +4,11 @@ import ecommerce.common.EXPIRED
 import ecommerce.common.ErrorInfo
 import ecommerce.common.PAY
 import ecommerce.databean.PaymentVo
-import ecommerce.entity.Order
 import ecommerce.entity.Sale
-import ecommerce.entity.SalePayment
-import ecommerce.repository.IOrderRepository
-import ecommerce.repository.ISalePaymentRepository
+import ecommerce.entity.DealsPayment
+import ecommerce.entity.OrderSheet
+import ecommerce.repository.IDealsPaymentRepository
+import ecommerce.repository.IOrderSheetRepository
 import ecommerce.repository.ISaleRepository
 import ecommerce.service.IPayForOrderService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,14 +21,14 @@ import java.time.LocalDateTime
 @Service
 class PayForOrderServiceImpl: IPayForOrderService{
     @Autowired
-    lateinit var orderRepository: IOrderRepository
+    lateinit var orderSheetRepository: IOrderSheetRepository
     @Autowired
     lateinit var saleRepository: ISaleRepository
     @Autowired
-    lateinit var salePaymentRepotory: ISalePaymentRepository
+    lateinit var dealsPaymentRepotory: IDealsPaymentRepository
 
     override fun payForOrder(paymentVo: PaymentVo) {
-        val currentOrder = orderRepository.findBySequenceNo(paymentVo.sequenceNo)
+        val currentOrder = orderSheetRepository.findBySequenceNo(paymentVo.sequenceNo)
         //金钱校验
         if (checkPayForOrder(currentOrder, paymentVo) != null) return
 
@@ -37,7 +37,6 @@ class PayForOrderServiceImpl: IPayForOrderService{
         //暂时没有想到其他办法可以拿到它的id
         val sale = Sale()
         sale.apply {
-             sequenceNo = paymentVo.sequenceNo
              saleTimes = now
              money = paymentVo.paymentDetail.sumBy { it.paymentMoney } //实际支付金额
              otherPay = paymentVo.redPacket.sumBy { it.second }
@@ -46,24 +45,24 @@ class PayForOrderServiceImpl: IPayForOrderService{
 
         //保存支付金钟状态
         paymentVo.paymentDetail.map {
-            SalePayment(
+            DealsPayment(
                 saleId = sale.id,
-                paymenttype = it.paymentType,
-                paymoney = it.paymentMoney,
+                paymentType = it.paymentType,
+                payMoney = it.paymentMoney,
                 paymentDetailId = it.paymentDetail
             )
-        }.let { salePaymentRepotory.saveAll(it) }
+        }.let { dealsPaymentRepotory.saveAll(it) }
 
         //设置为已支付状态
         currentOrder.apply {
             status = PAY
-        }.let { orderRepository.save(currentOrder) }
+        }.let { orderSheetRepository.save(currentOrder) }
     }
 
     /**
      * 对当前订单进行校验
      */
-    fun checkPayForOrder(currentOrder: Order, paymentVo: PaymentVo): ErrorInfo? {
+    fun checkPayForOrder(currentOrder: OrderSheet, paymentVo: PaymentVo): ErrorInfo? {
         //判断订单是否已经过期
         if ((EXPIRED == currentOrder.status)) {
             return ErrorInfo.ORDER_HAS_BENN_EXPIRED

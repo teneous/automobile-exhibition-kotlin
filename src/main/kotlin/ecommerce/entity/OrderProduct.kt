@@ -23,11 +23,8 @@ data class OrderProduct(
     var totalNum: Int? = null,
     @Column(name="status")
     var status:Short? = null,
-    @Column(name="real_total_money")//折扣后总钱
+    @Column(name="real_total_money")//实际支付价格
     var realTotalMoney:Int? = null,
     @Column(name = "discount")
     var discount: Int? = null
-){
-    constructor(sequenceNo: String, customerId: Long, status: Short = VALID,
-                totalNum: Int = 1, realTotalMoney: Int = 0,discount: Int?): this()
-}
+)

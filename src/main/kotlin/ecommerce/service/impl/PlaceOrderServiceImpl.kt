@@ -5,10 +5,10 @@ import ecommerce.common.extendfun.abs
 import ecommerce.common.extendfun.times
 import ecommerce.databean.OrderInfoVo
 import ecommerce.entity.OrderProduct
-import ecommerce.entity.Order
+import ecommerce.entity.OrderSheet
 import ecommerce.repository.ICustomerRepository
 import ecommerce.repository.IOrderProductRepository
-import ecommerce.repository.IOrderRepository
+import ecommerce.repository.IOrderSheetRepository
 import ecommerce.service.IPlaceOrderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -22,7 +22,7 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
     @Autowired
     lateinit var orderProductRepository: IOrderProductRepository
     @Autowired
-    lateinit var orderRepository: IOrderRepository
+    lateinit var orderSheetRepository: IOrderSheetRepository
 
     override fun placeOrder(orderInfo: OrderInfoVo) {
         if(!checkPlaceOrder(orderInfo)) return
@@ -32,14 +32,14 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
         val totalProductDiscount = orderInfo.calculateDiscountAndGetTotal()//获取商品所有折扣
         val totalDiscount = orderInfo.specialDiscount?.sumBy { it.second }?.plus(totalProductDiscount)//获取该订单内所有折扣
         //保存订单信息
-        Order().apply {
+        OrderSheet().apply {
                 sequenceNo = orderInfo.sequenceNo
                 orderTime = now
                 status = UNPAY
                 customerId = orderInfo.customerId
                 this.totalDiscount = totalDiscount
                 totalMoney =  totalProductMoney?.minus(totalDiscount!!)
-        }.let { orderRepository.save(it)}
+        }.let { orderSheetRepository.save(it)}
         //保存订单内的商品信息{vo->entity,对象之间的转换应该用map更为合适}
         orderInfo.productList?.map {
             OrderProduct(

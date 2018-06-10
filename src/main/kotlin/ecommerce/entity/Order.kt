@@ -1,6 +1,5 @@
 package ecommerce.entity
 
-import ecommerce.common.VALID
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -8,7 +7,7 @@ import javax.persistence.*
  * Created by syoka on 2018/3/28.
  */
 @Entity
-data class Order(
+data class OrderSheet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     @Column(name = "customer_id")
@@ -22,5 +21,11 @@ data class Order(
     @Column(name = "total_money")
     var totalMoney: Int ? = null,
     @Column(name = "total_discount")
-    var totalDiscount: Int? = null
+    var totalDiscount: Int? = null,
+    @Column(name ="carton_no")
+    var cartonNo: String? = null
+//    @Column(name="payment_type")
+//    var paymentType: Short? = null,
+//    @Column(name="payment_detailid")
+//    var paymentDetailId :Long? =null
 )

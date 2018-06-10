@@ -7,8 +7,8 @@ import javax.persistence.*
 data class Sale(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    @Column(name = "sequence_no")
-    var sequenceNo: String? = null,
+    @Column(name = "carton_no")
+    var cartonNo: String? = null,
     @Column(name = "sale_times")
     var saleTimes: LocalDateTime? = null,
     @Column(name = "money")
