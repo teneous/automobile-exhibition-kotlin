@@ -3,7 +3,7 @@ package ecommerce.service.impl
 import ecommerce.common.EXPIRED
 import ecommerce.common.ErrorInfo
 import ecommerce.common.PAY
-import ecommerce.databean.PaymentVo
+import ecommerce.databean.sales.PaymentVo
 import ecommerce.entity.Sale
 import ecommerce.entity.DealsPayment
 import ecommerce.entity.OrderSheet

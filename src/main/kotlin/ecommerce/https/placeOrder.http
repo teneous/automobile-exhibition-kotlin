@@ -1,0 +1,43 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+POST http://localhost:8000/order/placeorder
+Cookie: key=first-value
+accept-language: zh-CN,zh;q=0.9
+Accept: *
+Content-Type: application/json
+
+{
+  "customerId":1,
+  "sequenceNo":97765420180601100164,
+  "shopInfo":{
+    "shopid":1
+  },
+  "productList":[{
+    "productId":"ga_1673306",
+    "number":2,
+    "marketPrice":35,
+    "canDiscount":0,
+    "discountType":-1,
+    "discountValue":0
+  },{
+    "productId":"wp_9980132",
+    "number":1,
+    "marketPrice":999,
+    "canDiscount":1,
+    "discountType":1,
+    "discountValue":80
+  }],
+  "specialDiscount":[{
+    "first":"gf-000001",
+    "second":"5"
+  },{
+    "first":"gf-000002",
+    "second":"15"
+  }]
+}
+
+###

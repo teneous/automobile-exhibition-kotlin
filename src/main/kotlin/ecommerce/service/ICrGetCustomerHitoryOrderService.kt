@@ -1,6 +1,6 @@
 package ecommerce.service
 
-import ecommerce.databean.CrOrderCondition
+import ecommerce.databean.order.CrOrderCondition
 import ecommerce.entity.OrderSheet
 
 interface ICrGetCustomerHitoryOrderService {

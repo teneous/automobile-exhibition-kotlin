@@ -1,6 +1,6 @@
 package ecommerce.common.extendfun
 
-import ecommerce.databean.ProductInfo
+import ecommerce.databean.basical.ProductInfo
 
 
 /**

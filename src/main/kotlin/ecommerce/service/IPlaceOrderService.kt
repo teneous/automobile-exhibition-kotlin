@@ -1,7 +1,6 @@
 package ecommerce.service
 
-import ecommerce.databean.OrderInfoVo
-import ecommerce.databean.PaymentVo
+import ecommerce.databean.order.OrderInfoVo
 
 
 interface IPlaceOrderService{

@@ -1,4 +1,4 @@
-package ecommerce.databean
+package ecommerce.databean.basical
 
 /**
  * 订单商品

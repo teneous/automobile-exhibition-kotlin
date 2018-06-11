@@ -1,6 +1,6 @@
 package ecommerce.service
 
-import ecommerce.databean.PaymentVo
+import ecommerce.databean.sales.PaymentVo
 
 /**
  * Created by syoka on 2018/4/24.

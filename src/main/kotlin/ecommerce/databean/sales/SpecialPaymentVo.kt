@@ -1,4 +1,4 @@
-package ecommerce.databean
+package ecommerce.databean.sales
 
 data class SpecialPaymentVo(
     var money: Int,

@@ -1,6 +1,6 @@
 package ecommerce.service.impl
 
-import ecommerce.databean.CrOrderCondition
+import ecommerce.databean.order.CrOrderCondition
 import ecommerce.entity.OrderSheet
 import ecommerce.repository.ICustomerRepository
 import ecommerce.repository.IOrderSheetRepository

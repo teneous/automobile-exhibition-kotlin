@@ -1,7 +1,7 @@
 package ecommerce.resource
 
-import ecommerce.databean.OrderInfoVo
-import ecommerce.databean.PaymentVo
+import ecommerce.databean.order.OrderInfoVo
+import ecommerce.databean.sales.PaymentVo
 import ecommerce.service.IPayForOrderService
 import ecommerce.service.IPlaceOrderService
 import org.springframework.beans.factory.annotation.Autowired

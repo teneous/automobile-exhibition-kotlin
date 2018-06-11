@@ -24,8 +24,4 @@ data class OrderSheet(
     var totalDiscount: Int? = null,
     @Column(name ="carton_no")
     var cartonNo: String? = null
-//    @Column(name="payment_type")
-//    var paymentType: Short? = null,
-//    @Column(name="payment_detailid")
-//    var paymentDetailId :Long? =null
 )

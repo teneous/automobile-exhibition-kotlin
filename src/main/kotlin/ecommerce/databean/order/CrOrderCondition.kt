@@ -1,4 +1,4 @@
-package ecommerce.databean
+package ecommerce.databean.order
 
 import java.time.LocalDate
 
