@@ -13,6 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
-@EnableJpaRepositories(basePackages = ["ecommerce.repository"])
-@EntityScan(basePackages = ["ecommerce.entity"])
+@EnableJpaRepositories(basePackages = ["ecommerce.*.repository"])
+@EntityScan(basePackages = ["ecommerce.transaction.entity"])
 class JpaConfiguration
