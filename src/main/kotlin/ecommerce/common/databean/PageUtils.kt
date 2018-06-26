@@ -9,15 +9,13 @@ import org.springframework.data.domain.Sort
  */
 class PageUtils{
     companion object {
-        private val DEFAULT_SORT = Sort(Sort.Direction.fromString("id"), "desc")
-    }
+        private var DEFAULT_SORT = Sort(Sort.Direction.fromString("id"), "desc")
 
-    fun basicalPage(pagenum :Int?,size :Int?,sort :List<Pair<String,String>>?):Pageable {
-        sort ?: ArrayList()
-        sort?.forEach {
-            DEFAULT_SORT
+        fun basicalPage(pagenum :Int?,size :Int?,sort :List<Pair<String,String>>?):Pageable {
+            (sort ?: ArrayList()).forEach {
+                DEFAULT_SORT = DEFAULT_SORT.and(Sort(Sort.Direction.fromString(it.first), it.second))
+            }
+            return PageRequest.of(pagenum ?: 1, size ?: 20, DEFAULT_SORT)
         }
-        val sortResult = Sort(Sort.Direction.fromString(sort!!.first), sort.second)
-        return PageRequest.of(pagenum ?: 1, size ?: 20, sortResult)
     }
 }
