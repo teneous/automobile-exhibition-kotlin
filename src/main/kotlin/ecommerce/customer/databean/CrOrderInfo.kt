@@ -9,7 +9,7 @@ data class CrOrderInfo(
     var sequenceNo:String? = null,
     var shopInfo: ShopInfo? = null,
     var productBasicalList:List<Pair<String,String>>? = null,
-    val paymoney:Int? = null,
+    var paymoney:Int? = null,
     var paytype:Short? = null
 
 )

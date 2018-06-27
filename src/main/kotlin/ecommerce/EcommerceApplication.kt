@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.ComponentScan
 
-//@ComponentScan(value = ["ecommerce.transaction.resource"])
+//@ComponentScan(value = ["ecommerce.transaction.controller"])
 //@EnableAutoConfiguration
 @SpringBootApplication
 class EcommerceApplication
