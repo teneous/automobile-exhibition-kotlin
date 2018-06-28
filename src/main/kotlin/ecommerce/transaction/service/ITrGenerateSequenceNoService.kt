@@ -1,6 +1,6 @@
 package ecommerce.transaction.service
 
-import ecommerce.transaction.common.SYOKA
+import ecommerce.common.databean.SYOKA
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -23,6 +23,6 @@ interface ITrGenerateSequenceNoService{
      * 创建商家码
     */
     fun generateSellerSequenceNo(shopcode:String): String {
-        return "$SYOKA${sequenceFormatter.format(LocalDateTime.now())}$shopcode"
+        return "${SYOKA}${sequenceFormatter.format(LocalDateTime.now())}$shopcode"
     }
 }

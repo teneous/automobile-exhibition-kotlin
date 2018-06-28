@@ -1,6 +1,6 @@
 package ecommerce.customer.service
 
-import ecommerce.customer.databean.CrOrderInfo
+import ecommerce.customer.restvo.CrOrderInfo
 import ecommerce.transaction.databean.TrCrOrderCondition
 import org.springframework.data.domain.Pageable
 

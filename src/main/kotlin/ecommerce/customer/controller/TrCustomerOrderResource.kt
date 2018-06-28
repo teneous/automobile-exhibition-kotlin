@@ -1,6 +1,6 @@
 package ecommerce.customer.controller
 
-import ecommerce.customer.databean.CrOrderInfo
+import ecommerce.customer.restvo.CrOrderInfo
 import ecommerce.transaction.databean.TrCrOrderCondition
 import ecommerce.customer.service.ICrGetCustomerHitoryOrderService
 import org.springframework.beans.factory.annotation.Autowired

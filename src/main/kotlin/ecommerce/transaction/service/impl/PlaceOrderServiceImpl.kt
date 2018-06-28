@@ -1,6 +1,7 @@
 package ecommerce.transaction.service.impl
 
-import ecommerce.transaction.common.*
+import ecommerce.common.databean.UNPAY
+import ecommerce.common.databean.VALID
 import ecommerce.transaction.databean.TrOrderInfoVo
 import ecommerce.transaction.entity.OrderProduct
 import ecommerce.transaction.entity.OrderSheet
@@ -52,7 +53,7 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
                 this.totalDiscount = totalDiscount
         }.let { orderSheetRepository.save(it)}
 
-        //保存订单内的商品信息{vo->entity,对象之间的转换应该用map更为合适}
+        //保存订单内的商品信息{restvo->entity,对象之间的转换应该用map更为合适}
         orderInfo.productList.map {
             OrderProduct(
                     sequenceNo = customerCode,

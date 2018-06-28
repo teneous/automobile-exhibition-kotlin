@@ -1,8 +1,8 @@
 package ecommerce.transaction.service.impl
 
-import ecommerce.transaction.common.EXPIRED
+import ecommerce.common.databean.EXPIRED
 import ecommerce.transaction.common.ErrorInfo
-import ecommerce.transaction.common.PAY
+import ecommerce.common.databean.PAY
 import ecommerce.transaction.databean.TrPaymentVo
 import ecommerce.transaction.entity.Sale
 import ecommerce.transaction.entity.DealsPayment

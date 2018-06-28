@@ -1,9 +1,7 @@
 package ecommerce.transaction.service.impl
 
-import ecommerce.transaction.common.SYOKA
-import ecommerce.transaction.repository.IOrderSheetRepository
+import ecommerce.common.databean.SYOKA
 import ecommerce.transaction.service.ITrGenerateSequenceNoService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
@@ -18,7 +16,7 @@ class TrGenerateTimeSequenceNoServiceImpl: ITrGenerateSequenceNoService {
 
 
     override fun generateSequenceNo(): String {
-        return "$SYOKA${Duration.between( LocalDateTime.of(1994,7,1,0,0,0),LocalDateTime.now()).toMillis()}"
+        return "${SYOKA}${Duration.between( LocalDateTime.of(1994,7,1,0,0,0),LocalDateTime.now()).toMillis()}"
     }
 }
 

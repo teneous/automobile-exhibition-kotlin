@@ -12,6 +12,6 @@ data class DealsPayment(
     var paymentType: Short? = null,
     @Column(name = "payment_detail_id")
     var paymentDetailId :Long? = null,
-    @Column(name = "paymoney")
+    @Column(name = "pay_money")
     var payMoney: Int? = 0
 )

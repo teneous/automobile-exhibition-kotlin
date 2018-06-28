@@ -1,4 +1,4 @@
-package ecommerce.transaction.common
+package ecommerce.common.databean
 
 /**
  * Created by syoka on 2018/3/30.
@@ -12,10 +12,10 @@ internal const val LOGOFF: Short = 2 /*无效*/
 internal const val UNPAY: Short = 0 /*尚未支付*/
 internal const val PAY: Short = 1 /*尚未支付*/
 
-
 //折扣相关
 internal const val DISCOUNT_RATE: Short = 0 /*按照折扣率来打折  0~100*/
 internal const val DISCOUNT_MONEY: Short = 1 /*按照金额来打折*/
 
 
 internal const val SYOKA = "192514111"
+

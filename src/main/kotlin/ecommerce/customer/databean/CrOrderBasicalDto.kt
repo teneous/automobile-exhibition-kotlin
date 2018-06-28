@@ -10,5 +10,6 @@ data class CrOrderBasicalDto(
         var shopCode:String?="",
         var shopName:String?  = "",
         var payMoney:Int? = 0,
-        var orderTime :LocalDateTime?=null
+        var orderTime :LocalDateTime?=null,
+        var status:Short?=0
 )

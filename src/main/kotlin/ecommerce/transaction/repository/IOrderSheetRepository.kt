@@ -19,7 +19,7 @@ interface IOrderSheetRepository : JpaRepository<OrderSheet,Long> {
      * 获取该顾客的最近订单
      */
     @Query(value = "SELECT new ecommerce.customer.databean.CrOrderBasicalDto(os.sequenceNo as sequenceNo," +
-            " sp.code as shopCode,sp.name as shopName,os.payMoney as payMoney,os.orderTime as orderTime)  " +
+            " sp.code as shopCode,sp.name as shopName,os.payMoney as payMoney,os.orderTime as orderTime,os.status as status)  " +
             " FROM OrderSheet os ,Shop sp WHERE os.shopCode = sp.code and os.customerId =?1",
             nativeQuery = false)
     fun listCrOrderBasicalDto(@Param("customerId") customerId: Long,pageable: Pageable): List<CrOrderBasicalDto>
