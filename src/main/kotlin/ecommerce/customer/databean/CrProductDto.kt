@@ -7,23 +7,23 @@ package ecommerce.customer.databean
 class CrProductDto {
     var sequenceNo:String= ""
     var productId:String=""
-    var productName:String = ""
+    var productName:String? = ""
     var productNumber:Int = 0
-    var productImg:String = ""
+    var productImg:String? = ""
     var productDescr:String =""
 
     constructor()
 
-    constructor(productName:String,productImg:String):this(){
+    constructor(productName:String?="",productImg:String?=""):this(){
         this.productName = productName
         this.productImg = productImg
     }
 
-    constructor(productName:String,productImg:String,sequenceNo:String):this(productName,productImg){
+    constructor(sequenceNo:String,productName:String?="",productImg:String?=""):this(productName,productImg){
         this.sequenceNo = sequenceNo
     }
 
-    constructor(productName:String,productImg:String,
+    constructor(productName:String?="",productImg:String?="",
                 productNumber:Int,productDescr:String):this(productName,productImg){
         this.productNumber = productNumber
         this.productDescr = productDescr

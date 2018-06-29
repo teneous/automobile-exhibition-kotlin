@@ -6,7 +6,6 @@ import ecommerce.customer.service.ICrGetCustomerHitoryOrderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.ModelAndView
 
 
 @RestController
@@ -18,8 +17,6 @@ class CrCustomerOrderController {
 
     @GetMapping("/{customerId}/history")
     fun getCustomerHistoryOrder(@PathVariable("customerId") customerId:Long,pageable: Pageable):List<CrOrderInfo>?{
-        val modelAndView = ModelAndView()
-        modelAndView.view
         return crGetCustomerHitoryOrderService.getAllCustomerHistoryOrder(customerId,pageable)
     }
 

@@ -7,8 +7,8 @@ import ecommerce.common.databean.ShopInfo
  */
 data class CrOrderInfo(
         var sequence_no:String? = null,
-        var sho_info: ShopInfo? = null,
-        var product_basical_list:List<Pair<String,String>>? = null,
+        var shop_info: ShopInfo? = null,
+        var product_basical_list:List<CrBasicalVo>? = null,
         var pay_money:Int? = null,
         var pay_type:Short? = null
 
