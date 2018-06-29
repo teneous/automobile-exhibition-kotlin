@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script  type="text/javascript" src="../js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+</head>
+<body>
+<!--<button onclick="getCustomerOrders">获取顾客数据</button>-->
+<!--<div id = "ts">-->
+<!---->
+<!--</div>-->
+
+<script type="text/javascript" th:inline="javascript">
+   stomerOrders(){
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            url: '/customer/1/history',
+            cache: false,
+            async: true,
+            success: function (data) {
+               console.log(data)
+            }
+        })
+    }
+</script>
+</body>
+</html>

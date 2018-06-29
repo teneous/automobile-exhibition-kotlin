@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
  */
 @RestController
 @RequestMapping("/order")
-class PlaceOrderController{
+class TrPlaceOrderController{
 
     @Autowired
     private lateinit var placeOrderService: IPlaceOrderService
