@@ -11,5 +11,5 @@ fun Int.abs(): Int {
 }
 
 operator fun TrProductInfo.times(number: Int): Int {
-    return number * marketPrice
+    return number * market_price
 }

@@ -1,8 +1,8 @@
 package ecommerce.transaction.service.impl
 
-import ecommerce.common.databean.EXPIRED
+import ecommerce.common.EXPIRED
+import ecommerce.common.WAIT_POST
 import ecommerce.transaction.common.ErrorInfo
-import ecommerce.common.databean.PAY
 import ecommerce.transaction.databean.TrPaymentVo
 import ecommerce.transaction.entity.Sale
 import ecommerce.transaction.entity.DealsPayment
@@ -55,7 +55,7 @@ class PayForOrderServiceImpl: IPayForOrderService{
 
         //设置为已支付状态
         currentOrder.apply {
-            status = PAY
+            status = WAIT_POST
         }.let { orderSheetRepository.save(currentOrder) }
     }
 

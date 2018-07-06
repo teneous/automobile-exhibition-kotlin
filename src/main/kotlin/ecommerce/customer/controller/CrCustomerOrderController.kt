@@ -1,7 +1,6 @@
 package ecommerce.customer.controller
 
-import ecommerce.customer.restvo.CrOrderInfo
-import ecommerce.transaction.databean.TrCrOrderCondition
+import ecommerce.customer.restvo.CrOrderInfoResultVo
 import ecommerce.customer.service.ICrGetCustomerHitoryOrderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
@@ -15,14 +14,13 @@ class CrCustomerOrderController {
     @Autowired
     private lateinit var crGetCustomerHitoryOrderService: ICrGetCustomerHitoryOrderService
 
-    @GetMapping("/{customerId}/history")
-    fun getCustomerHistoryOrder(@PathVariable("customerId") customerId:Long,pageable: Pageable):List<CrOrderInfo>?{
+    @GetMapping("/{customer_id}/history")
+    fun getCustomerHistoryOrder(@PathVariable("customer_id") customerId:Long,pageable: Pageable):List<CrOrderInfoResultVo>?{
         return crGetCustomerHitoryOrderService.getAllCustomerHistoryOrder(customerId,pageable)
     }
 
-    //请求参数过多的话
-    @PostMapping("/{customerId}/history")
-    fun getCustomerHistoryOrder(@PathVariable("customerId") customerId:Long,@RequestBody searchVo: TrCrOrderCondition){
-        return crGetCustomerHitoryOrderService.getCustomerHistoryOrder(customerId,searchVo)
+    @PostMapping("/orderdetail/{sequenceNo}")
+    fun getCustomerHistoryOrder(@PathVariable("sequenceNo") sequenceNo:String){
+        return crGetCustomerHitoryOrderService.getOrderDetailInfo(sequenceNo)
     }
 }

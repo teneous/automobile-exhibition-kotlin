@@ -1,14 +1,15 @@
 package ecommerce.transaction.databean
 
 /**
+ * 下订单顾客必须信息
  * Created by syoka on 2018/6/22.
  */
 data class TrCustomerInfoVo(
-        val customerId:Long,
+        val customer_id:Long,
         /*收货地址*/
-        var recevieAddress:String,
+        var recevie_address:String,
         /*电话号码*/
-        var mobileNo:String,
+        var mobile_no:String,
         /*是否短信提醒*/
-        var isRemind:Short
+        var is_remind:Short
 )

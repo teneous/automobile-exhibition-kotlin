@@ -1,4 +1,4 @@
-package ecommerce.common.databean
+package ecommerce.common
 
 /**
  * Created by syoka on 2018/6/22.

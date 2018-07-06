@@ -1,6 +1,6 @@
 package ecommerce.transaction.controller
 
-import ecommerce.transaction.databean.TrOrderInfoVo
+import ecommerce.transaction.databean.TrPlaceOrderInfoVo
 import ecommerce.transaction.databean.TrPaymentVo
 import ecommerce.transaction.service.IPayForOrderService
 import ecommerce.transaction.service.IPlaceOrderService
@@ -20,7 +20,7 @@ class TrPlaceOrderController{
     private lateinit var payForOrderService: IPayForOrderService
 
     @PostMapping("/placeorder")
-    fun placeOrder(@RequestBody orderInfo: TrOrderInfoVo){
+    fun placeOrder(@RequestBody orderInfo: TrPlaceOrderInfoVo){
         placeOrderService.placeOrder(orderInfo)
     }
 

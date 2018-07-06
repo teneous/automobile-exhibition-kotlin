@@ -18,12 +18,12 @@ interface IOrderSheetRepository : JpaRepository<OrderSheet,Long> {
     /**
      * 获取该顾客的最近订单
      */
-    @Query(value = "SELECT new ecommerce.customer.databean.CrOrderBasicalDto(os.sequenceNo as sequenceNo," +
+    @Query(value = "SELECT new ecommerce.customer.databean.CrOrderBasicalDto(os.sequenceNo as sequenceNo,os.orderType as orderType," +
             " sp.code as shopCode,sp.name as shopName,os.payMoney as payMoney,os.orderTime as orderTime,os.status as status)  " +
-            " FROM OrderSheet os ,Shop sp WHERE os.shopCode = sp.code and os.customerId =?1",
+            " FROM OrderSheet os ,Shop sp WHERE os.shopCode = sp.code and os.customer_id =?1",
             nativeQuery = false)
-    fun listCrOrderBasicalDto(@Param("customerId") customerId: Long,pageable: Pageable): List<CrOrderBasicalDto>
+    fun listCrOrderBasicalDto(@Param("customer_id") customerId: Long,pageable: Pageable): List<CrOrderBasicalDto>
 
-    @Query(value = "From OrderSheet where customerId=:cid and status = 1",nativeQuery = false)
+    @Query(value = "From OrderSheet where customer_id=:cid and status = 1",nativeQuery = false)
     fun findValidOrderForCustomer(@Param("cid")customerId:Long):List<OrderSheet>
 }

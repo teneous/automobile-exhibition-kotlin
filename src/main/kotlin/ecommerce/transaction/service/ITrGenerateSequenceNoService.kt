@@ -1,6 +1,6 @@
 package ecommerce.transaction.service
 
-import ecommerce.common.databean.SYOKA
+import ecommerce.common.SYOKA
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

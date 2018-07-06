@@ -7,6 +7,7 @@ import java.time.LocalDateTime
  */
 data class CrOrderBasicalDto(
         var sequenceNo:String? = "",
+        var orderType:Short? = 0,
         var shopCode:String?="",
         var shopName:String?  = "",
         var payMoney:Int? = 0,

@@ -1,6 +1,6 @@
 package ecommerce.transaction.service.impl
 
-import ecommerce.common.databean.SYOKA
+import ecommerce.common.SYOKA
 import ecommerce.transaction.service.ITrGenerateSequenceNoService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

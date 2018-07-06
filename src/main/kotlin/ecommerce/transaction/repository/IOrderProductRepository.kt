@@ -15,6 +15,6 @@ interface IOrderProductRepository : JpaRepository<OrderProduct,Long> {
 
     @Query(value = "SELECT new ecommerce.customer.databean.CrProductDto(os.sequenceNo as sequenceNo,op.productName as product_name"+
              " ,p.productImg as product_img) FROM OrderSheet os, OrderProduct op, Product p WHERE os.sequenceNo = op.sequenceNo AND"+
-             " op.productId = p.productId AND os.customerId =:customerId",nativeQuery = false)
-    fun findCustomerOrderProduct(@Param("customerId") customerId: Long):List<CrProductDto>
+             " op.product_id = p.product_id AND os.customer_id =:customer_id",nativeQuery = false)
+    fun findCustomerOrderProduct(@Param("customer_id") customerId: Long):List<CrProductDto>
 }

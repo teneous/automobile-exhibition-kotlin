@@ -1,7 +1,7 @@
 package ecommerce.customer.service
 
-import ecommerce.customer.restvo.CrOrderInfo
-import ecommerce.transaction.databean.TrCrOrderCondition
+import ecommerce.customer.restvo.CrOrderDetailInfoResultVo
+import ecommerce.customer.restvo.CrOrderInfoResultVo
 import org.springframework.data.domain.Pageable
 
 interface ICrGetCustomerHitoryOrderService {
@@ -9,7 +9,10 @@ interface ICrGetCustomerHitoryOrderService {
     /**
      * 获取这个顾客的订单
      */
-    fun getAllCustomerHistoryOrder(customerId:Long,pageable: Pageable):List<CrOrderInfo>
+    fun getAllCustomerHistoryOrder(customerId:Long,pageable: Pageable):List<CrOrderInfoResultVo>
 
-    fun getCustomerHistoryOrder(customerId:Long,searchCondition: TrCrOrderCondition)
+    /**
+     * 获取订单详细
+     */
+    fun getOrderDetailInfo(sequenceNo:String): CrOrderDetailInfoResultVo
 }

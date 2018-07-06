@@ -1,10 +1,11 @@
 package ecommerce.customer.service.impl
 
-import ecommerce.common.databean.ShopInfo
-import ecommerce.customer.restvo.CrOrderInfo
-import ecommerce.transaction.databean.TrCrOrderCondition
+import ecommerce.common.ShopInfo
+import ecommerce.common.enum.TransactionType
+import ecommerce.common.util.TimeFormatUtil
+import ecommerce.customer.restvo.CrOrderInfoResultVo
 import ecommerce.customer.repository.ICustomerRepository
-import ecommerce.customer.restvo.CrBasicalVo
+import ecommerce.customer.restvo.CrOrderDetailInfoResultVo
 import ecommerce.transaction.repository.IOrderSheetRepository
 import ecommerce.customer.service.ICrGetCustomerHitoryOrderService
 import ecommerce.transaction.repository.IOrderProductRepository
@@ -22,37 +23,41 @@ class CrGetCustomerHitoryOrderServiceImpl: ICrGetCustomerHitoryOrderService {
     @Autowired
     private lateinit var orderProductRepository: IOrderProductRepository
 
-    override fun getAllCustomerHistoryOrder(customerId: Long,pageable: Pageable):List<CrOrderInfo>  {
-        val resultList = ArrayList<CrOrderInfo>()
+    override fun getAllCustomerHistoryOrder(customerId: Long,pageable: Pageable):List<CrOrderInfoResultVo>  {
+        val resultList = ArrayList<CrOrderInfoResultVo>()
         val customer = customerRepository.findById(customerId)
         if(!customer.isPresent) return emptyList()
         val basicalList = orderSheetRepository.listCrOrderBasicalDto(customerId,pageable)
-//        val baseInfo = basicalList.groupBy { it.sequenceNo }
-        val orderProductMap = orderProductRepository.findCustomerOrderProduct(customerId).groupBy { it.sequenceNo }
-
         basicalList.forEach{
-            CrOrderInfo().apply {
+            CrOrderInfoResultVo().apply {
                 this.sequence_no = it.sequenceNo
                 this.shop_info = ShopInfo().apply {
                     shopCode = it.shopCode
                     shopName = it.shopName
                 }
-                val productList = ArrayList<CrBasicalVo>()
-                this.product_basical_list = orderProductMap[it.sequenceNo]?.forEach {
-                    val basicalVo = CrBasicalVo().apply {
-                        product_name = it.productName
-                        product_img = it.productImg
-                    }
-                    productList.add(basicalVo)
-                }.let { productList }
+                order_type = TransactionType.getName(it.orderType!!)
                 this.pay_money = it.payMoney
                 this.pay_type = it.status
+                this.order_time = TimeFormatUtil.defaultFormatter(it.orderTime!!)
             }.let {resultList.add(it)}
         }
         return resultList
     }
 
-    override fun getCustomerHistoryOrder(customerId: Long, searchCondition: TrCrOrderCondition) {
+    override fun getOrderDetailInfo(sequenceNo:String):CrOrderDetailInfoResultVo {
+        val currentOrder = orderSheetRepository.findBySequenceNo(sequenceNo)
+        val productList = orderProductRepository.findBySequenceNo(sequenceNo)
+        val apply = CrOrderDetailInfoResultVo().apply {
+            this.order_info=null
+            this.customer_info=null
+            this.product_info=null
+        }
+
+
+
+
+        return
+
 
     }
 }

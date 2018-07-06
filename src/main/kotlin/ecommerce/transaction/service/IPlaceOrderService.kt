@@ -1,6 +1,6 @@
 package ecommerce.transaction.service
 
-import ecommerce.transaction.databean.TrOrderInfoVo
+import ecommerce.transaction.databean.TrPlaceOrderInfoVo
 
 
 interface IPlaceOrderService{
@@ -8,7 +8,7 @@ interface IPlaceOrderService{
    /**
     * 提交订单
     */
-   fun placeOrder(orderInfo: TrOrderInfoVo)
+   fun placeOrder(orderInfo: TrPlaceOrderInfoVo)
 
 
 }
