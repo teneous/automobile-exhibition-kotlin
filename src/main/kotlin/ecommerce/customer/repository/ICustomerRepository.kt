@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ICustomerRepository: JpaRepository<Customer,Long>{
 
-//    fun findAll(spec: Specification<T>, pageable: Pageable): Page<T>
+
+    fun findByIdentityNo(identity:String):Customer
 
 }

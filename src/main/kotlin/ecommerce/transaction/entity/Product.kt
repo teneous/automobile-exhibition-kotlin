@@ -1,5 +1,6 @@
 package ecommerce.transaction.entity
 
+import java.math.BigDecimal
 import javax.persistence.*
 
 @Entity
@@ -12,6 +13,8 @@ data class Product(
     var productId:String? =null,
     @Column(name = "product_type")
     var productType: Short? =null,
+    @Column(name = "price")
+    var price: BigDecimal? =null,
     @Column(name = "product_img")
     var productImg:String? = null,
     @Column(name="status")

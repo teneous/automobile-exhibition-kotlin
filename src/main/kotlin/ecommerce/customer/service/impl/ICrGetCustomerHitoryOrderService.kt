@@ -1,10 +1,11 @@
 package ecommerce.customer.service.impl
 
 import ecommerce.common.ShopInfo
-import ecommerce.common.enum.TransactionType
+import ecommerce.common.enums.errors.TransactionType
 import ecommerce.common.util.TimeFormatUtil
 import ecommerce.customer.restvo.CrOrderInfoResultVo
 import ecommerce.customer.repository.ICustomerRepository
+import ecommerce.customer.restvo.CrOrderDetailBaseInfoVo
 import ecommerce.customer.restvo.CrOrderDetailInfoResultVo
 import ecommerce.transaction.repository.IOrderSheetRepository
 import ecommerce.customer.service.ICrGetCustomerHitoryOrderService
@@ -47,6 +48,12 @@ class CrGetCustomerHitoryOrderServiceImpl: ICrGetCustomerHitoryOrderService {
     override fun getOrderDetailInfo(sequenceNo:String):CrOrderDetailInfoResultVo {
         val currentOrder = orderSheetRepository.findBySequenceNo(sequenceNo)
         val productList = orderProductRepository.findBySequenceNo(sequenceNo)
+        val orderInfo = CrOrderDetailBaseInfoVo()
+        currentOrder.map{
+            orderInfo = currentOrder.
+            crOrderDetailBaseInfoVo
+        }
+
         val apply = CrOrderDetailInfoResultVo().apply {
             this.order_info=null
             this.customer_info=null

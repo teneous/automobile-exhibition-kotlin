@@ -1,17 +1,26 @@
 package ecommerce.transaction.service.impl
 
-import ecommerce.common.NEW
-import ecommerce.common.VALID
+import ecommerce.common.CUSTOMER_VALID
+import ecommerce.common.VILID
+import ecommerce.common.enums.errors.CrErrorInfoEnum
+import ecommerce.common.enums.errors.TrErrorInfoEnum
+import ecommerce.common.enums.status.OrderStatusEnum
+import ecommerce.common.exception.CustomerException
+import ecommerce.customer.entity.Customer
 import ecommerce.transaction.databean.TrPlaceOrderInfoVo
 import ecommerce.transaction.entity.OrderProduct
 import ecommerce.transaction.entity.OrderSheet
 import ecommerce.customer.repository.ICustomerRepository
+import ecommerce.stock.repository.IProductRepository
+import ecommerce.transaction.databean.TrProductInfo
+import ecommerce.transaction.entity.Product
 import ecommerce.transaction.repository.IOrderProductRepository
 import ecommerce.transaction.repository.IOrderSheetRepository
 import ecommerce.transaction.service.IPlaceOrderService
 import ecommerce.transaction.service.ITrGenerateSequenceNoService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.stream.Collectors
 import javax.transaction.Transactional
@@ -28,54 +37,71 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
     lateinit var orderSheetRepository: IOrderSheetRepository
     @Autowired
     lateinit var timeSequenceNoServiceImpl: ITrGenerateSequenceNoService
+    @Autowired
+    lateinit var productRepository: IProductRepository
 
     override fun placeOrder(orderInfo: TrPlaceOrderInfoVo) {
-        //数据校验
-        if(!checkPlaceOrder(orderInfo)) return
+        //1.数据校验
+        val currentCustomer = checkPlaceOrder(orderInfo)
         val now = LocalDateTime.now()
-        //计算每个商品的金额以及折扣
-        val totalProductMoney = orderInfo.product_list.stream().collect(Collectors.summingInt {it.market_price*it.number })//商品市场总价
-        val totalProductDiscount = orderInfo.calculateDiscountAndGetTotal()//获取商品所有折扣
-        val totalDiscount = orderInfo.special_discount?.sumBy { it.second }?.plus(totalProductDiscount)//获取该订单内所有折扣
-
-        val customerCode = timeSequenceNoServiceImpl.generateSequenceNo()
-        val sellerCode = timeSequenceNoServiceImpl.generateSellerSequenceNo(orderInfo.shop_info.shopCode!!)
-        //保存订单信息
+        //2.计算订单总额,总割引额
+        val productList = productRepository.findByProductIdIn(orderInfo.product_list.stream().
+                map { e -> e.product_id }.collect(Collectors.toList()))
+        //k:productid,v:购买数量
+        val purchaseMap = orderInfo.product_list.groupBy { it.product_id }.
+                mapValues { it.value.stream().collect(Collectors.summarizingInt(TrProductInfo::number))}
+        //k productid v price
+        val productPriceMap = productList.stream().collect(Collectors.toMap(Product::productId, Product::price))
+        //原商品总价
+        var totalProductMoney = 0L
+        productList.stream().forEach{
+            totalProductMoney += purchaseMap.getValue(it.productId!!).sum.times(it.price!!.longValueExact())
+        }
+        //获取商品所有折扣
+        val totalProductDiscount = orderInfo.calculateDiscountAndGetTotal().toLong()
+        val totalDiscount = orderInfo.special_discount?.sumBy { it.second }?.plus(totalProductDiscount)?:0L//获取该订单内所有折扣
+        //3.获取商家码,订单号
+        val sequenceNo = timeSequenceNoServiceImpl.generateSequenceNo()
+        val sellerCode = timeSequenceNoServiceImpl.generateSellerSequenceNo(orderInfo.shop_code)
+        //4.保存订单信息
         OrderSheet().apply {
-                sequenceNo = customerCode
+                this.sequenceNo = sequenceNo
                 this.sellerCode = sellerCode
                 orderTime = now
-                status = NEW
-                customerId = orderInfo.customer_info.customer_id
-                totalMoney =  totalProductMoney?.minus(totalDiscount!!)
+                status = OrderStatusEnum.NEW.code
+                customerId = currentCustomer.id
+                totalMoney =  BigDecimal(totalProductMoney.minus(totalDiscount))
                 recevieAddress = orderInfo.customer_info.recevie_address
                 mobileNo = orderInfo.customer_info.mobile_no
-                this.totalDiscount = totalDiscount
+                this.totalDiscount = BigDecimal(totalDiscount)
         }.let { orderSheetRepository.save(it)}
 
-        //保存订单内的商品信息{restvo->entity,对象之间的转换应该用map更为合适}
+        /**
+         * 5.保存订单内的商品信息
+         * {restvo->entity,对象之间的转换应该用map更为合适}
+         */
         orderInfo.product_list.map {
             OrderProduct(
-                    sequenceNo = customerCode,
-                    customerId = orderInfo.customer_info.customer_id,
+                    sequenceNo = sequenceNo,
+                    customerId = currentCustomer.id,
                     totalNum = it.number,
                     productId = it.product_id,
-                    status = VALID,
+                    status = VILID,
                     discount = it.discount_value,
-                    realTotalMoney = it.number * it.market_price - it.discount
+                    realTotalMoney = productPriceMap.getValue(it.product_id)?.times(BigDecimal(it.number))?.minus(it.discount_value!!)
             )
         }.let { orderProductRepository.saveAll(it) }
         //如果有特殊折扣商品(特殊折扣卷,将其作为一种商品)
         if (orderInfo.special_discount?.size != 0) {
             orderInfo.special_discount?.map{
                 OrderProduct(
-                        sequenceNo = customerCode,
-                        customerId = orderInfo.customer_info.customer_id,
+                        sequenceNo = sequenceNo,
+                        customerId = currentCustomer.id,
                         totalNum = 1,
-                        status = VALID,
+                        status = VILID,
                         productId = it.first,
-                        discount = it.second,
-                        realTotalMoney = 0
+                        discount = BigDecimal(it.second),
+                        realTotalMoney = BigDecimal.ZERO
                 )}.let { orderProductRepository.saveAll(it?: listOf())}
             }
     }
@@ -83,15 +109,17 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
     /**
      * 下订单数据校验
      */
-    fun checkPlaceOrder(orderInfo: TrPlaceOrderInfoVo): Boolean{
-        val customer = customerRepository.getOne(orderInfo.customer_info.customer_id)
-        if(VALID != customer.status) return false
-        if (orderInfo.product_list.isEmpty()) return false
-        return true
+    fun checkPlaceOrder(orderInfo: TrPlaceOrderInfoVo): Customer {
+        val customer =  customerRepository.findByIdentityNo(orderInfo.customer_info.customer_identity)
+        if(CUSTOMER_VALID != customer.status) throw CustomerException(CrErrorInfoEnum.CUSTOMER_STATU_INVALID.errormsg)
+        if (orderInfo.product_list.isEmpty()) throw CustomerException(TrErrorInfoEnum.ORDER_PRODUCT_LIST_IS_EMPTY.errormsg)
+        return customer
     }
 }
 
-    //extends function
+
+
+//    extends function
     fun TrPlaceOrderInfoVo.calculateDiscountAndGetTotal(): Int{
         var totalDiscount = 0
         //过滤掉不能打折的,在对其分组

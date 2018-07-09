@@ -5,7 +5,5 @@ package ecommerce.common
  */
 data class ShopInfo(
     var shopCode:String? = "",
-    var shopName:String? ="",
-    var shopAddress:String? ="",
-    var shopMobileNo:String? =""
+    var shopName:String? =""
 )

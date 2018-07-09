@@ -1,4 +1,4 @@
-package ecommerce.common.enum
+package ecommerce.common.enums.errors
 
 /**
  * Created by syoka on 2018/7/6.

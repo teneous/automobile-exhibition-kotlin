@@ -1,5 +1,6 @@
 package ecommerce.transaction.entity
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -27,7 +28,7 @@ data class OrderProduct(
     @Column(name="status")
     var status:Short? = null,
     @Column(name="real_total_money")//实际支付价格
-    var realTotalMoney:Int? = null,
+    var realTotalMoney:BigDecimal? = null,
     @Column(name = "discount")
-    var discount: Int? = null
+    var discount: BigDecimal? = null
 )

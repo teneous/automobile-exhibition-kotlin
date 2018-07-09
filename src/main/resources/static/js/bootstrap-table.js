@@ -859,7 +859,7 @@
                 that.trigger('load-success', data);
             },
             error: function (res) {
-                that.trigger('load-error', res.status);
+                that.trigger('load-errors', res.status);
             },
             complete: function () {
                 that.$loading.hide();

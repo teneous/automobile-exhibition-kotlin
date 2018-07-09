@@ -2,7 +2,6 @@ package ecommerce.transaction.service.impl
 
 import ecommerce.common.EXPIRED
 import ecommerce.common.WAIT_POST
-import ecommerce.transaction.common.ErrorInfo
 import ecommerce.transaction.databean.TrPaymentVo
 import ecommerce.transaction.entity.Sale
 import ecommerce.transaction.entity.DealsPayment
@@ -62,14 +61,14 @@ class PayForOrderServiceImpl: IPayForOrderService{
     /**
      * 对当前订单进行校验
      */
-    fun checkPayForOrder(currentOrder: OrderSheet, paymentVo: TrPaymentVo): ErrorInfo? {
+    fun checkPayForOrder(currentOrder: OrderSheet, paymentVo: TrPaymentVo): ErrorInfoEnum? {
         //判断订单是否已经过期
         if ((EXPIRED == currentOrder.status)) {
-            return ErrorInfo.ORDER_HAS_BENN_EXPIRED
+            return ErrorInfoEnum.ORDER_HAS_BENN_EXPIRED
         }
         //订单表的实际支付总额等于红包加上客户支付金额
         if (currentOrder.totalMoney != paymentVo.paymentDetail.sumBy { it.paymentMoney }.plus(paymentVo.redPacket.sumBy { it.second })) {
-            return ErrorInfo.ORDER_ACTUALPAY_NOT_EQUAL_TO_REAL_PAY
+            return ErrorInfoEnum.ORDER_ACTUALPAY_NOT_EQUAL_TO_REAL_PAY
         }
         return null
     }

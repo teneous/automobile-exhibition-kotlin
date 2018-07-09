@@ -8,10 +8,10 @@ package ecommerce.customer.restvo
 data class CrOrderDetailInfoResultVo(
 
         /*订单信息*/
-        var order_info: CrOrderDetailBaseInfoVo?,
+        var order_info: CrOrderDetailBaseInfoVo?=null,
         /*顾客信息*/
-        var customer_info:CrOrderDetailCustomerInfoVo?,
+        var customer_info:CrOrderDetailCustomerInfoVo?=null,
         /*商品信息*/
-        var product_info:List<CrOrderDetailProductInfoVo>?
+        var product_info:List<CrOrderDetailProductInfoVo>?=null
 
 )

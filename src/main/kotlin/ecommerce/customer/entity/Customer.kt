@@ -10,8 +10,8 @@ import javax.persistence.*
 data class Customer(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
-        @Column(name = "identity_num")
-        var identityNum: String? = null,
+        @Column(name = "identity_no")
+        var identityNo: String? = null,
         @Column(name = "nick_name")
         var nickName: String? = null,
         @Column(name = "register_time")

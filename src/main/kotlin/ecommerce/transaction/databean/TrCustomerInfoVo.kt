@@ -5,7 +5,10 @@ package ecommerce.transaction.databean
  * Created by syoka on 2018/6/22.
  */
 data class TrCustomerInfoVo(
-        val customer_id:Long,
+        /*顾客卡号*/
+        val customer_identity:String,
+        /*顾客名字*/
+        val customer_name:String,
         /*收货地址*/
         var recevie_address:String,
         /*电话号码*/

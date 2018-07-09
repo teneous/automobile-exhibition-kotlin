@@ -1,5 +1,6 @@
 package ecommerce.transaction.entity
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -31,11 +32,11 @@ data class OrderSheet(
     @Column(name = "status")
     var status: Short? = null,
     @Column(name = "total_money")
-    var totalMoney: Int ? = null,
+    var totalMoney: BigDecimal ? = null,
     @Column(name = "total_discount")
-    var totalDiscount: Int? = null,
+    var totalDiscount: BigDecimal? = null,
     @Column(name="pay_money")
-    var payMoney:Int? = null,
+    var payMoney:BigDecimal? = null,
     @Column(name ="carton_no")
     var cartonNo: String? = null,
     @Column(name ="recevie_address")
