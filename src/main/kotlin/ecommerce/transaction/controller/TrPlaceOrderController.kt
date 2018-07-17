@@ -19,11 +19,17 @@ class TrPlaceOrderController{
     @Autowired
     private lateinit var payForOrderService: IPayForOrderService
 
+    /**
+     * 下单
+     */
     @PostMapping("/placeorder")
     fun placeOrder(@RequestBody orderInfo: TrPlaceOrderInfoVo){
         placeOrderService.placeOrder(orderInfo)
     }
 
+    /**
+     * 支付订单
+     */
     @PostMapping("/payfororder")
     fun payForOrder(@RequestBody paymentVo: TrPaymentVo){
         payForOrderService.payForOrder(paymentVo)

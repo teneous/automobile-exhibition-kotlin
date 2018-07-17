@@ -30,7 +30,7 @@ data class OrderSheet(
     @Column(name ="express")
     var express:Short?=null,
     @Column(name = "status")
-    var status: Short? = null,
+    var status: Short = 1,
     @Column(name = "total_money")
     var totalMoney: BigDecimal ? = null,
     @Column(name = "total_discount")
@@ -42,5 +42,7 @@ data class OrderSheet(
     @Column(name ="recevie_address")
     var recevieAddress:String?=null,
     @Column(name ="mobile_no")
-    var mobileNo:String?=null
+    var mobileNo:String?=null,
+    @Column(name="recevier_name")
+    var recevierName:String?=null
 )

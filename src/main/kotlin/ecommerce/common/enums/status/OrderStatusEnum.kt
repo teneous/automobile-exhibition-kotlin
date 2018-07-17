@@ -1,13 +1,13 @@
 package ecommerce.common.enums.status
 
-import lombok.Getter
 
 /**
  * Created by syoka on 2018/7/9.
  */
-@Getter
+@lombok.Getter
 enum class OrderStatusEnum(val code:Short){
+    EXPIRE(-1),
     NEW(1),
     CANCEL(2),
-    FINISH(0),
+    FINISH(0)
 }

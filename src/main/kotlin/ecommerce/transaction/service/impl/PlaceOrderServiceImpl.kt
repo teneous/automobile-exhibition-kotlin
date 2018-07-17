@@ -74,6 +74,7 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
                 recevieAddress = orderInfo.customer_info.recevie_address
                 mobileNo = orderInfo.customer_info.mobile_no
                 this.totalDiscount = BigDecimal(totalDiscount)
+                recevierName = orderInfo.customer_info.customer_name
         }.let { orderSheetRepository.save(it)}
 
         /**
@@ -91,19 +92,6 @@ class PlaceOrderServiceImpl: IPlaceOrderService{
                     realTotalMoney = productPriceMap.getValue(it.product_id)?.times(BigDecimal(it.number))?.minus(it.discount_value!!)
             )
         }.let { orderProductRepository.saveAll(it) }
-        //如果有特殊折扣商品(特殊折扣卷,将其作为一种商品)
-        if (orderInfo.special_discount?.size != 0) {
-            orderInfo.special_discount?.map{
-                OrderProduct(
-                        sequenceNo = sequenceNo,
-                        customerId = currentCustomer.id,
-                        totalNum = 1,
-                        status = VILID,
-                        productId = it.first,
-                        discount = BigDecimal(it.second),
-                        realTotalMoney = BigDecimal.ZERO
-                )}.let { orderProductRepository.saveAll(it?: listOf())}
-            }
     }
 
     /**

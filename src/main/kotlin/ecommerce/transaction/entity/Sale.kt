@@ -16,7 +16,7 @@ data class Sale(
     @Column(name = "number")
     var discount: Int? = 0,
     @Column(name ="refund_sale_id")
-    var refundSaleId :Long?=null,
-    @Column(name ="other_pay")
-    var otherPay :Int?=0
+    var refundSaleId :Long?=null
+//    @Column(name ="other_pay")
+//    var otherPay :Int?=0
 )
