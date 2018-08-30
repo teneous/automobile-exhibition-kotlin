@@ -9,5 +9,6 @@ enum class OrderStatusEnum(val code:Short){
     EXPIRE(-1),
     NEW(1),
     CANCEL(2),
+    WAIT(3),
     FINISH(0)
 }

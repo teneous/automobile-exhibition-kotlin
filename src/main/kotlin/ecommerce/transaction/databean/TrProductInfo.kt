@@ -8,8 +8,7 @@ import java.math.BigDecimal
 data class TrProductInfo(
         var product_id: String,
         var number: Int = 0,
-        var can_discount: Short? = 0,
         var discount_value: BigDecimal? = BigDecimal.ZERO,
-        //类型
+        //折扣类型
         var discount: Int = 0
 )

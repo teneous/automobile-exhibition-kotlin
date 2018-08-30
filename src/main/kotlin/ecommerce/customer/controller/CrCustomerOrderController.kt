@@ -1,5 +1,6 @@
 package ecommerce.customer.controller
 
+import ecommerce.customer.restvo.CrOrderDetailInfoResultVo
 import ecommerce.customer.restvo.CrOrderInfoResultVo
 import ecommerce.customer.service.ICrGetCustomerHitoryOrderService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,7 @@ class CrCustomerOrderController {
     }
 
     @PostMapping("/orderdetail/{sequenceNo}")
-    fun getCustomerHistoryOrder(@PathVariable("sequenceNo") sequenceNo:String){
+    fun getCustomerHistoryOrder(@PathVariable("sequenceNo") sequenceNo:String): CrOrderDetailInfoResultVo {
         return crGetCustomerHitoryOrderService.getOrderDetailInfo(sequenceNo)
     }
 }

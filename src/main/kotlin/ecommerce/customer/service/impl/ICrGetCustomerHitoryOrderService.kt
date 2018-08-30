@@ -3,17 +3,17 @@ package ecommerce.customer.service.impl
 import ecommerce.common.ShopInfo
 import ecommerce.common.enums.errors.TransactionType
 import ecommerce.common.util.TimeFormatUtil
-import ecommerce.customer.restvo.CrOrderInfoResultVo
 import ecommerce.customer.repository.ICustomerRepository
-import ecommerce.customer.restvo.CrOrderDetailBaseInfoVo
-import ecommerce.customer.restvo.CrOrderDetailInfoResultVo
+import ecommerce.customer.restvo.*
 import ecommerce.transaction.repository.IOrderSheetRepository
 import ecommerce.customer.service.ICrGetCustomerHitoryOrderService
+import ecommerce.stock.repository.IProductRepository
 import ecommerce.transaction.repository.IOrderProductRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-
+import java.time.LocalDateTime
+import java.util.*
 @Service
 class CrGetCustomerHitoryOrderServiceImpl: ICrGetCustomerHitoryOrderService {
 
@@ -23,11 +23,14 @@ class CrGetCustomerHitoryOrderServiceImpl: ICrGetCustomerHitoryOrderService {
     private lateinit var orderSheetRepository: IOrderSheetRepository
     @Autowired
     private lateinit var orderProductRepository: IOrderProductRepository
+    @Autowired
+    private lateinit var productRepository: IProductRepository;
 
     override fun getAllCustomerHistoryOrder(customerId: Long,pageable: Pageable):List<CrOrderInfoResultVo>  {
         val resultList = ArrayList<CrOrderInfoResultVo>()
         val customer = customerRepository.findById(customerId)
         if(!customer.isPresent) return emptyList()
+        /**查询顾客所有订单**/
         val basicalList = orderSheetRepository.listCrOrderBasicalDto(customerId,pageable)
         basicalList.forEach{
             CrOrderInfoResultVo().apply {
@@ -48,23 +51,33 @@ class CrGetCustomerHitoryOrderServiceImpl: ICrGetCustomerHitoryOrderService {
     override fun getOrderDetailInfo(sequenceNo:String):CrOrderDetailInfoResultVo {
         val currentOrder = orderSheetRepository.findBySequenceNo(sequenceNo)
         val productList = orderProductRepository.findBySequenceNo(sequenceNo)
-        val orderInfo = CrOrderDetailBaseInfoVo()
-        currentOrder.map{
-            orderInfo = currentOrder.
-            crOrderDetailBaseInfoVo
+
+        /**订单详细**/
+        val orderDetailInfo = CrOrderDetailBaseInfoVo().apply {
+            sequence_no = currentOrder.sequenceNo!!
+            seller_code = currentOrder.sellerCode
+            order_type = currentOrder.orderType.toString()
+            shop_name = currentOrder.sellerShopName
+            pay_money = currentOrder.payMoney
+            order_time = TimeFormatUtil.defaultFormatter(currentOrder.orderTime?: LocalDateTime.now())
+            pay_time =  TimeFormatUtil.defaultFormatter(currentOrder.payTime?: LocalDateTime.now())
+            express = "DEMO"
         }
+        /**顾客信息**/
+        val customerDetailInfo = CrOrderDetailCustomerInfoVo(currentOrder.recevierName!!, currentOrder.mobileNo!!, currentOrder.recevieAddress!!)
 
-        val apply = CrOrderDetailInfoResultVo().apply {
-            this.order_info=null
-            this.customer_info=null
-            this.product_info=null
+        /**购买商品详细信息**/
+
+        val productInfoVo = ArrayList<CrOrderDetailProductInfoVo>()
+        productList.forEach {
+            val product = productRepository.findByProductId(it.productId)
+            productInfoVo.add(CrOrderDetailProductInfoVo(it.productId!!, it.productName ?: "",
+                    product.productImg ?: "", it.description ?: ""))
         }
-
-
-
-
-        return
-
-
+        return CrOrderDetailInfoResultVo().apply {
+            order_info = orderDetailInfo
+            customer_info = customerDetailInfo
+            product_info = productInfoVo
+        }
     }
 }

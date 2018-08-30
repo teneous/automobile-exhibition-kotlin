@@ -26,5 +26,8 @@ internal const val CUSTOMER_VALID: Short = 1 /*有效*/
 internal const val CUSTOMER_INVALID: Short = 0 /*无效*/
 
 /**商品状态*/
-internal const val VILID: Short =1/*有效*/
-internal const val INVILID: Short = 0 /*无效*/
+internal const val VALID: Short =1/*有效*/
+internal const val INVALID: Short = 0 /*无效*/
+
+/*能否打折*/
+internal const val CAN_DISCOUNT: Short =1

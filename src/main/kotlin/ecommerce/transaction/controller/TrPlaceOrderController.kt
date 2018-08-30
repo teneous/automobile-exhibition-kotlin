@@ -20,7 +20,7 @@ class TrPlaceOrderController{
     private lateinit var payForOrderService: IPayForOrderService
 
     /**
-     * 下单
+     * 订单下单
      */
     @PostMapping("/placeorder")
     fun placeOrder(@RequestBody orderInfo: TrPlaceOrderInfoVo){

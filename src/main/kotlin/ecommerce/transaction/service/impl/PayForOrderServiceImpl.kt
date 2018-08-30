@@ -1,7 +1,5 @@
 package ecommerce.transaction.service.impl
 
-import ecommerce.common.EXPIRED
-import ecommerce.common.WAIT_POST
 import ecommerce.common.enums.errors.TrErrorInfoEnum
 import ecommerce.common.enums.status.OrderStatusEnum
 import ecommerce.transaction.databean.TrPaymentVo
@@ -21,6 +19,7 @@ import java.time.LocalDateTime
  */
 @Service
 class PayForOrderServiceImpl: IPayForOrderService{
+
     @Autowired
     lateinit var orderSheetRepository: IOrderSheetRepository
     @Autowired
@@ -30,33 +29,31 @@ class PayForOrderServiceImpl: IPayForOrderService{
 
     override fun payForOrder(paymentVo: TrPaymentVo) {
         val currentOrder = orderSheetRepository.findBySequenceNo(paymentVo.sequenceNo)
-        //金钱校验
+        /**金钱校验**/
         if (checkPayForOrder(currentOrder, paymentVo) != null) return
 
         //保存交易记录
         val now = LocalDateTime.now()
-        //暂时没有想到其他办法可以拿到它的id
         val sale = Sale()
         sale.apply {
              saleTimes = now
-             money = paymentVo.paymentDetail.sumBy { it.paymentMoney } //实际支付金额
-             otherPay = paymentVo.redPacket.sumBy { it.second }
-             discount = currentOrder.totalDiscount
+             money = paymentVo.paymentDetail.sumBy { it.paymentMoney.intValueExact() } //实际支付金额
+             discount = currentOrder.totalDiscount?.intValueExact()
         }.let { saleRepository.save(it) }
 
-        //保存支付金钟状态
+        /**保存支付金钟状态**/
         paymentVo.paymentDetail.map {
             DealsPayment(
                 saleId = sale.id,
                 paymentType = it.paymentType,
-                payMoney = it.paymentMoney,
+                payMoney = it.paymentMoney.intValueExact(),
                 paymentDetailId = it.paymentDetail
             )
         }.let { dealsPaymentRepotory.saveAll(it) }
 
-        //设置为已支付状态
+        /**变更订单状态**/
         currentOrder.apply {
-            status = WAIT_POST
+            status = OrderStatusEnum.WAIT.code
         }.let { orderSheetRepository.save(currentOrder) }
     }
 
